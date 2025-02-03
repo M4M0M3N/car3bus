@@ -1,7 +1,7 @@
 '''
 script fake utilizzato per passare dati precedentemente letti da obd e memorizzati nel file
 '''
-
+import os
 from converti import *
 from time import sleep
 
@@ -9,15 +9,24 @@ class obd_read:
     def __init__(self, m):
 
         #apro il file utilizzato per database
-        f = open('database_all.txt', 'r')
+        try:
+            f = open('database_all.txt', 'r')
+        except Exception as e:
+            print(e)
+            print(os.listdir())
+            exit()
 
-        while True:
+        righe = f.readlines()
+        f.close()
+
+        for r in righe:
             #leggo il file
-            obd_read = f.readline()
-            sleep(0.1)
+            obd_read = r
+            sleep(0.001)
 
             #se legggo pippo vuol dire che il file è terminato
             if obd_read == 'pippo':
+                print("finito il file, ricomincio")
                 break
 
             try:
