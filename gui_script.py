@@ -25,6 +25,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #self.graphicsView.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         #self.graphicsView.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
 
+
+        self.pushButton.clicked.connect(self.switch_page)
+
         self.scene = QtWidgets.QGraphicsScene()
         self.contenitore_lancette.setScene(self.scene)  # Associa la scena al pedaleacc_lancetta_2
 
@@ -32,7 +35,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         pixmap = QPixmap('lancetta.png')  # Sostituisci con il percorso della tua immagine
 
         # Ridimensiona il pixmap alla dimensione desiderata
-        pixmap = pixmap.scaled(200, 10, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        pixmap = pixmap.scaled(100, 10)
 
         self.velocita_lancetta = QGraphicsPixmapItem(pixmap)
         self.girimotore_lancetta = QGraphicsPixmapItem(pixmap)
@@ -44,15 +47,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.scene.addItem(self.pedaleacc_lancetta)
         self.scene.addItem(self.temperatura_lancetta)
 
-        self.velocita_lancetta.setTransformOriginPoint(pixmap.width() / 2, pixmap.height() / 2)
-        self.girimotore_lancetta.setTransformOriginPoint(pixmap.width() / 2, pixmap.height() / 2)
-        self.pedaleacc_lancetta.setTransformOriginPoint(pixmap.width() / 2, pixmap.height() / 2)
-        self.temperatura_lancetta.setTransformOriginPoint(pixmap.width() / 2, pixmap.height() / 2)
+        x,y = pixmap.width() / 2, pixmap.height() / 2
 
-        self.velocita_lancetta.setPos(-30, -10)
-        self.girimotore_lancetta.setPos(50, 150)
-        self.pedaleacc_lancetta.setPos(50, 250)
-        self.temperatura_lancetta.setPos(50, 350)
+        self.velocita_lancetta.setTransformOriginPoint(x,y)
+        self.girimotore_lancetta.setTransformOriginPoint(x,y)
+        self.pedaleacc_lancetta.setTransformOriginPoint(x,y)
+        self.temperatura_lancetta.setTransformOriginPoint(x,y)
+
+
+        x, spazio = 0, 58
+
+        self.velocita_lancetta.setPos(x, 0)
+        self.girimotore_lancetta.setPos(x, 100)
+        self.pedaleacc_lancetta.setPos(x, 150)
+        self.temperatura_lancetta.setPos(x, 200)
 
         #self.item.setTransform(transform)
 
@@ -62,6 +70,16 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_ui)
         self.timer.start(50)  # Aggiorna ogni mezzo secondo
+
+    def switch_page(self):
+        # Cambia pagina del QStackedWidget
+        current_index = self.stackedWidget.currentIndex()
+
+        if current_index == 1:
+            current_index = -1
+
+        self.stackedWidget.setCurrentIndex(current_index + 1)
+
 
     def update_ui(self):
         #self.m.info()
