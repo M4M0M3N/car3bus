@@ -20,11 +20,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.m = m
 
-        # Disabilitare le barre di scorrimento
-        #self.graphicsView.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        #self.graphicsView.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-
-
         self.pushButton.clicked.connect(self.switch_page)
 
         #aggiungi scena e adattala alle dimensioni del graphicsView
@@ -92,6 +87,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.pedaleacc_bar.setOrientation(Qt.Vertical)
 
+        self.velocita_text_2.setAlignment(Qt.AlignRight)
 
     # Timer per aggiornare le lancette e i testi
         self.timer = QtCore.QTimer(self)

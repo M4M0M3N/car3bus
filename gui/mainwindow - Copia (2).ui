@@ -17,9 +17,6 @@
    <property name="enabled">
     <bool>true</bool>
    </property>
-   <property name="styleSheet">
-    <string notr="true"/>
-   </property>
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
@@ -126,7 +123,7 @@
      <widget class="QLabel" name="velocita_text_2">
       <property name="geometry">
        <rect>
-        <x>190</x>
+        <x>210</x>
         <y>330</y>
         <width>91</width>
         <height>91</height>
@@ -140,6 +137,9 @@
       </property>
       <property name="text">
        <string>1</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
       </property>
      </widget>
     </widget>
