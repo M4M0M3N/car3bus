@@ -19,7 +19,7 @@
 
 1. Clona la repository:
     ```bash
-    git clone https://github.com/tuo-utente/tuo-repo.git
+    git clone https://github.com/M4M0M3N/car3bus
     cd car3bus
     ```
 
