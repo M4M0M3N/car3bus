@@ -1,45 +1,35 @@
-'''
-main script dove si crea l'oggetto macchina e si gestisono i tread dei servizii collegati
-'''
-
 from threading import Thread
-
-import gui_script
 from macchina import macchina
-from time import sleep
-
-
-#Qui si sceglie far eseguire lo scrip fake che legge il file
 from fake_obd_script import obd_read
+from gui_script import MainWindow
+from PyQt5 import QtWidgets
+import sys
+import time
+import os
 
-#oppure lo script che legge direttamente da odb
-#from obd_script import obd_read
-
-
-m = macchina()
-
-#metodo usato per avviare i diversi tread
-def start_tread( target, oggetto):
-    t = Thread(target=target, args=(oggetto, ))
+def start_thread(target, obj):
+    t = Thread(target=target, args=(obj,), daemon=True)
     t.start()
     return t
 
+if __name__ == "__main__":
+    # Imposta la cartella di lavoro sulla directory dove si trova questo script
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-m = macchina()
+    m = macchina()
+    threads = {'obd': start_thread(obd_read, m)}
 
-t_obd = start_tread(obd_read, m)
-t_gui = start_tread(gui_script.run, m)
+    def monitor_thread():
+        while True:
+            if not threads['obd'].is_alive():
+                time.sleep(5)
+                print("🔄 Riavvio del thread OBD...")
+                threads['obd'] = start_thread(obd_read, m)
+            time.sleep(2)
 
+    Thread(target=monitor_thread, daemon=True).start()
 
-while True:
-
-    if not t_obd.is_alive():
-        t_obd = start_tread(obd_read, m)
-
-    if not t_gui.is_alive():
-        t_gui = start_tread(gui_script.run, m)
-
-    sleep(1)
-
-
-
+    app = QtWidgets.QApplication(sys.argv)
+    window = MainWindow(m)
+    window.show()
+    sys.exit(app.exec_())

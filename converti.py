@@ -25,3 +25,32 @@ def conv_temp(value):
 def conv_freno(value):
     freno = int(value[:2], 16)-40
     return freno
+
+def conv_luci(value):
+    luci = {
+        "C0": 0,  # 'Spenti'
+        "AA": 1,  # 'Anabbaglianti'
+        "D0": 2,  # 'Abbaglianti'
+    }
+
+    frecce = {
+        "00": 'off',  # Spente
+        "10": 'sx',   # Freccia sinistra
+        "20": 'dx',   # Freccia destra
+        "AA": 'all',  # 4 frecce
+                }
+    return luci.get(value[:2], 'Sconosciuto'), frecce.get(value[2:4], 'off')
+
+def conv_marcie(value):
+    marce = {
+        "AA": 'R',   
+        "1C": 1,  
+        "1F": 2,  
+        "22": 3,  
+        "24": 4,  
+        "26": 5,  
+        "29": 6,  
+    }
+    print(value)
+    print(value[-4:-2])
+    return marce.get(value[-4:-2], 'Sconosciuto')

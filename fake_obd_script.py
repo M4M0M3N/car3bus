@@ -10,7 +10,7 @@ class obd_read:
 
         #apro il file utilizzato per database
         try:
-            f = open('database_all.txt', 'r')
+            f = open('/home/mamo/Documenti/mazda/rasp/python/car3bus/database.txt', 'r')
         except Exception as e:
             print(e)
             print(os.listdir())
@@ -22,18 +22,19 @@ class obd_read:
         for r in righe:
             #leggo il file
             obd_read = r
-            sleep(0.001)
+            sleep(0.01)
 
             #se legggo pippo vuol dire che il file è terminato
             if obd_read == 'pippo':
                 print("finito il file, ricomincio")
-                break
+                exit(0)
 
             try:
                 #divido la stringa nei vari valori
                 #esempio di stringa 75,00,00,230007DD46518300
                 address_id, rtr, dlc, value = obd_read.split(',')
-
+                value = value[:-1]  # rimuovo l'ultimo carattere che è un \n
+                
                 if address_id == '202': #202 e' l'indirizzo che contiene queste informazioni: rmp, gas pedal
 
                     #converto i giri del motore e li salvo nell'oggetto macchina
@@ -56,14 +57,16 @@ class obd_read:
                     m.temperatura_motore = temp
 
                     #print(temp)
+                
+                elif address_id == '130' and False:  # 0x130 → informazioni cambio marcia
+                    #raw = int(value[-4:], 16)
+                    if conv_marcie(value) != 'Sconosciuto':
+                        m.marcia = conv_marcie(value)
+                    print(m.marcia)
 
-                    '''elif address_id == '9F':  #marce ??
-
-                    temp = value
-
-                    print(f"{int(value[0:2],16)}  {int(value[2:4],16)}  {int(value[4:6],16)}  {int(value[6:8],16)}  ")#'''
+                elif address_id == '91':  # 0x91 → contiene stato abbaglianti (byte finale)
+                    #print(value)
+                    m.luci, m.freccia = conv_luci(value)
 
             except:
                 print(obd_read)
-
-        f.close()

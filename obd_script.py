@@ -1,4 +1,5 @@
-import can
+#import can
+import serial
 from converti import *
 
 '''
@@ -10,13 +11,14 @@ from time import sleep
 class obd_read:
     def __init__(self, m):
 
-        #mi collego all'interfaccia
-        bus = can.interface.Bus(channel='can0', bustype='socketcan')
-
+        arduino = serial.Serial('/dev/ttyUSB0', 250000, timeout=1)  # o ttyACM0
         while True:
-            sleep(0.5)
+            
+            linea = arduino.readline().decode('utf-8').strip()
+            print(f"Ricevuto: {linea}")
+            #sleep(0.5)
             #leggo il valore canbus
-            message = bus.recv()
+            message = linea
             #print(f"Received CAN frame: {message}")
 
             try:
