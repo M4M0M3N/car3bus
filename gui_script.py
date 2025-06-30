@@ -51,6 +51,8 @@ class MainWindow(QtWidgets.QMainWindow):
         elif event.key() == QtCore.Qt.Key_Left:
             i = (self.stacked.currentIndex() - 1) % self.stacked.count()
             self.stacked.setCurrentIndex(i)
+        
+        self.setWindowTitle(f"{type(self.stacked.currentWidget()).__name__} - Mazda Dashboard")
 
     def update_all(self):
         # Aggiorna sempre la dashboard grafica
