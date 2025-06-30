@@ -69,7 +69,7 @@ class BarraGiriGomito(QtWidgets.QWidget):
             x_start = base_x + dx_inclinato
             y_start = base_y - dy_inclinato
             sp_inizio = sp_mid
-            sp_fine = int(10 + 20 * perc)  # cresce da 10 a 30
+            sp_fine = int(30 + 20 * perc)  # cresce da 30 a 50
 
             path2 = QtGui.QPainterPath()
             path2.moveTo(x_start, y_start)
