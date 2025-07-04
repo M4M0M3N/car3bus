@@ -45,6 +45,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer.start(500)
 
     def keyPressEvent(self, event):
+        # Gestione cambio dashboard
         if event.key() == QtCore.Qt.Key_Right:
             i = (self.stacked.currentIndex() + 1) % self.stacked.count()
             self.stacked.setCurrentIndex(i)
@@ -52,6 +53,14 @@ class MainWindow(QtWidgets.QMainWindow):
             i = (self.stacked.currentIndex() - 1) % self.stacked.count()
             self.stacked.setCurrentIndex(i)
         
+        # Gestione cambio cartella frame se attiva racing_2
+        elif event.key() == QtCore.Qt.Key_Up:
+            if self.stacked.currentWidget() == self.racing_2:
+                self.racing_2.cambia_cartella(+1)
+        elif event.key() == QtCore.Qt.Key_Down:
+            if self.stacked.currentWidget() == self.racing_2:
+                self.racing_2.cambia_cartella(-1)
+
         self.setWindowTitle(f"{type(self.stacked.currentWidget()).__name__} - Mazda Dashboard")
 
     def update_all(self):

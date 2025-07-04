@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, QtGui, QtCore
-import math
+import os
 
 class BarraGiriGomito(QtWidgets.QWidget):
     def __init__(self, colore="#c084f5"):
@@ -149,6 +149,39 @@ class DashboardRacing2(QtWidgets.QWidget):
             container_layout.addWidget(disp)
             self.displays.append(disp)
 
+        # --- Gestione cartelle video ---
+        self.video_base_dir = os.path.join(os.getcwd(), "gui", "video")
+        self.subfolders = [f for f in os.listdir(self.video_base_dir) if os.path.isdir(os.path.join(self.video_base_dir, f))]
+        print(self.subfolders)  # Debug: stampa le cartelle trovate
+        self.subfolders.sort()
+        self.current_folder_idx = 0
+        self.frames = []
+        self.load_frames_from_current_folder()
+
+    def load_frames_from_current_folder(self):
+        if not self.subfolders:
+            self.frames = []
+            return
+        folder = self.subfolders[self.current_folder_idx]
+        folder_path = os.path.join(self.video_base_dir, folder)
+        files = sorted([f for f in os.listdir(folder_path) if f.lower().endswith('.png')])
+        self.frames = []
+        for fname in files:
+            path = os.path.join(folder_path, fname)
+            pix = QtGui.QPixmap(path)
+            if os.path.exists(path) and not pix.isNull():
+                self.frames.append(pix)
+        # Aggiorna QLabel subito se esiste
+        if hasattr(self, "label_video") and self.frames:
+            self.label_video.setPixmap(self.frames[0])
+
+
+    def cambia_cartella(self, direzione):
+        # direzione: +1 (su), -1 (giu)
+        if self.subfolders:
+            self.current_folder_idx = (self.current_folder_idx + direzione) % len(self.subfolders)
+            self.load_frames_from_current_folder()
+        
     def aggiorna(self):
         giri = getattr(self.m, 'giri_motore', 0)
         self.barra.set_valore(min(giri / 7000.0, 1.0))
@@ -158,3 +191,17 @@ class DashboardRacing2(QtWidgets.QWidget):
         vel_str = f"{vel:03d}"[-3:]  # sempre 3 cifre
         for i, disp in enumerate(self.displays):
             disp.display(int(vel_str[i]))
+
+        # --- Mostra il frame video proporzionale ai giri motore ---
+        if self.frames:
+            idx = int((giri / 7000.0) * (len(self.frames) - 1))
+            idx = max(0, min(idx, len(self.frames) - 1))
+            # Se non hai già un QLabel per mostrare il frame, crealo una volta sola:
+            if not hasattr(self, "label_video"):
+                self.label_video = QtWidgets.QLabel(self)
+                self.label_video.setGeometry(150, 300, 640, 360)
+                self.label_video.show()
+            self.label_video.setPixmap(self.frames[idx])
+            # Mostra anche il nome della cartella corrente come overlay
+            folder_name = self.subfolders[self.current_folder_idx] if self.subfolders else "-"
+            self.label_video.setToolTip(f"Cartella: {folder_name}")
