@@ -9,11 +9,13 @@ class obd_read:
     def __init__(self, m):
 
         #apro il file utilizzato per database
+        # Percorso generale: cerca il file nella stessa cartella dello script
+        db_path = os.path.join(os.path.dirname(__file__), 'database.txt')
         try:
-            f = open('/home/mamo/Documenti/mazda/rasp/python/car3bus/database.txt', 'r')
+            f = open(db_path, 'r')
         except Exception as e:
             print(e)
-            print(os.listdir())
+            print(os.listdir(os.path.dirname(__file__)))
             exit()
 
         righe = f.readlines()

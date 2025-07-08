@@ -27,7 +27,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     #impostare page 1
 
         # Aggiungi l'immagine alla scena
-        pixmap_1 = QPixmap('gui/lancetta.png')  # Sostituisci con il percorso della tua immagine
+        # Percorso assoluto rispetto alla posizione di questo script
+        lancetta_path = os.path.join(os.path.dirname(__file__), 'gui', 'lancetta.png')
+        pixmap_1 = QPixmap(lancetta_path)
 
         # Ridimensiona il pimax_1 alla dimensione desiderata
         ridimensiona = pixmap_1.width()/100
@@ -64,8 +66,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.contenitore_page_2.setScene(self.scene_page_2)
 
         # Aggiungi l'immagine alla scena_2
-        pixmap_2_s = QPixmap('gui/sfondo_2.png')
-        pixmap_2_l = QPixmap('gui/lancetta_2.png')
+        sfondo2_path = os.path.join(os.path.dirname(__file__), 'gui', 'sfondo_2.png')
+        lancetta2_path = os.path.join(os.path.dirname(__file__), 'gui', 'lancetta_2.png')
+        pixmap_2_s = QPixmap(sfondo2_path)
+        pixmap_2_l = QPixmap(lancetta2_path)
 
         # Ridimensiona il pimax_1 alla dimensione desiderata
         ridimensiona_s = pixmap_2_s.width() / self.contenitore_page_2.width()

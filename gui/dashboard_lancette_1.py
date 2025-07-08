@@ -79,6 +79,10 @@ class DashboardLancette1(QtWidgets.QWidget):
         elif self.m.luci == 2:
             file = f"{os.getcwd()}/gui/img/luci_abbaglianti.png"
         
-        pixmap = QPixmap(file)
+        # Percorso assoluto rispetto a questo script
+        abs_file = file
+        if not os.path.isabs(file):
+            abs_file = os.path.join(os.path.dirname(__file__), file)
+        pixmap = QPixmap(abs_file)
         pixmap = pixmap.scaled(50,50, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
         self.spia_luce.setPixmap(pixmap)
