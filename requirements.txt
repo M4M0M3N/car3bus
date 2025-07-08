@@ -1,2 +1,5 @@
 PyQt5
 Pillow
+matplotlib
+python-can
+pyserial

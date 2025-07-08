@@ -152,7 +152,6 @@ class DashboardRacing2(QtWidgets.QWidget):
         # --- Gestione cartelle video ---
         self.video_base_dir = os.path.join(os.getcwd(), "gui", "video")
         self.subfolders = [f for f in os.listdir(self.video_base_dir) if os.path.isdir(os.path.join(self.video_base_dir, f))]
-        print(self.subfolders)  # Debug: stampa le cartelle trovate
         self.subfolders.sort()
         self.current_folder_idx = 0
         self.frames = []
