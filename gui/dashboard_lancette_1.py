@@ -14,20 +14,21 @@ class DashboardLancette1(QtWidgets.QWidget):
         self.temp = GaugeWidget("Temp", "°C", 120, angle_span=180)
         self.acc = GaugeWidget("Gas", "%", 100, angle_span=180)
 
-        grid = QtWidgets.QGridLayout()
-        grid.setVerticalSpacing(30)  # aumentato da 30 a 60
-        grid.setContentsMargins(30, 10, 30, 30)
+        grid = QtWidgets.QGridLayout()  # Crea un layout a griglia per posizionare i widget in righe e colonne
+        grid.setVerticalSpacing(10)  # Imposta lo spazio verticale tra le righe della griglia (30 pixel)
+        grid.setContentsMargins(30, 1, 30, 0)  # Imposta i margini (sinistra, sopra, destra, sotto) attorno alla griglia
 
         # Imposta dimensione minima per righe e colonne
-        grid.setRowMinimumHeight(0, 300)
-        grid.setRowMinimumHeight(1, 300)
-        grid.setColumnMinimumWidth(0, 200)
-        grid.setColumnMinimumWidth(1, 200)
+        grid.setRowMinimumHeight(0, 300)      # La riga 0 avrà almeno 300 pixel di altezza
+        grid.setRowMinimumHeight(1, 300)      # La riga 1 avrà almeno 300 pixel di altezza
+        grid.setColumnMinimumWidth(0, 200)    # La colonna 0 avrà almeno 200 pixel di larghezza
+        grid.setColumnMinimumWidth(1, 200)    # La colonna 1 avrà almeno 200 pixel di larghezza
 
-        grid.addWidget(self.vel, 0, 0)
-        grid.addWidget(self.rpm, 0, 1)
-        grid.addWidget(self.temp, 1, 0)
-        grid.addWidget(self.acc, 1, 1)
+        # Aggiunge i widget Gauge alle rispettive celle della griglia
+        grid.addWidget(self.vel, 0, 0)   # Gauge velocità in riga 0, colonna 0
+        grid.addWidget(self.rpm, 0, 1)   # Gauge RPM in riga 0, colonna 1
+        grid.addWidget(self.temp, 1, 0)  # Gauge temperatura in riga 1, colonna 0
+        grid.addWidget(self.acc, 1, 1)   # Gauge acceleratore in riga 1, colonna 1
 
         layout.addLayout(grid)
 
