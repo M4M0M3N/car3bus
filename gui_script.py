@@ -12,7 +12,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.m = m
         self.setWindowTitle("Mazda Dashboard")
-        self.setFixedSize(900, 700)
+        self.setFixedSize(720, 480)
         self.setStyleSheet("background-color: black;")
 
         central = QtWidgets.QWidget()
@@ -68,5 +68,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.grafico_1.aggiorna()
         
         # Aggiorna anche la GUI attiva, se diversa da grafico_1
-        if self.stacked.currentWidget() is not self.grafico_1:
-            current_widget.aggiorna()
+        currentWidget = self.stacked.currentWidget()
+        if currentWidget is not self.grafico_1:
+            currentWidget.aggiorna()

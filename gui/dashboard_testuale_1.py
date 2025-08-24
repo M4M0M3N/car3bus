@@ -6,9 +6,8 @@ class DashboardTestuale1(QtWidgets.QWidget):
         self.m = m
         layout = QtWidgets.QGridLayout(self)
 
-        font_digital = QtGui.QFont("DS-Digital", 38)
-        if "DS-Digital" not in QtGui.QFontDatabase().families():
-            font_digital = QtGui.QFont("Courier", 38)
+        self.font_family = "DS-Digital" if "DS-Digital" in QtGui.QFontDatabase().families() else "Courier"
+        self.base_font_size = 38
 
         self.vel_label = QtWidgets.QLabel("VEL: 000 km/h")
         self.giri_label = QtWidgets.QLabel("RPM: 0000")
@@ -21,7 +20,7 @@ class DashboardTestuale1(QtWidgets.QWidget):
             (self.pedale_label, "orange"),
             (self.temp_label, "red"),
         ]:
-            label.setFont(font_digital)
+            label.setFont(QtGui.QFont(self.font_family, self.base_font_size))
             label.setStyleSheet(f"color: {color}; background-color: #111; border: 2px solid {color};")
             label.setAlignment(QtCore.Qt.AlignCenter)
 
@@ -30,7 +29,6 @@ class DashboardTestuale1(QtWidgets.QWidget):
         self.pedale_bar.setMinimum(0)
         self.pedale_bar.setMaximum(100)
         self.pedale_bar.setValue(0)
-        self.pedale_bar.setFixedHeight(200)
         self.pedale_bar.setTextVisible(False)
 
         layout.addWidget(self.vel_label, 0, 0)
@@ -58,3 +56,12 @@ class DashboardTestuale1(QtWidgets.QWidget):
 
         self.pedale_bar.setValue(acc)
         self.pedale_bar.setStyleSheet(f"QProgressBar::chunk {{ background-color: {color}; }}")
+
+    def resizeEvent(self, event):
+        h = self.height()
+        font_size = max(10, int(h / 12))
+        font = QtGui.QFont(self.font_family, font_size)
+        for label in [self.vel_label, self.giri_label, self.pedale_label, self.temp_label]:
+            label.setFont(font)
+        self.pedale_bar.setFixedHeight(int(h * 0.4))
+        super().resizeEvent(event)
