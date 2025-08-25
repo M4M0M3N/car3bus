@@ -18,11 +18,11 @@ class DashboardLancette1(QtWidgets.QWidget):
         grid.setVerticalSpacing(10)  # Imposta lo spazio verticale tra le righe della griglia (30 pixel)
         grid.setContentsMargins(30, 1, 30, 0)  # Imposta i margini (sinistra, sopra, destra, sotto) attorno alla griglia
 
-        # Imposta dimensione minima per righe e colonne
-        grid.setRowMinimumHeight(0, 300)      # La riga 0 avrà almeno 300 pixel di altezza
-        grid.setRowMinimumHeight(1, 300)      # La riga 1 avrà almeno 300 pixel di altezza
-        grid.setColumnMinimumWidth(0, 200)    # La colonna 0 avrà almeno 200 pixel di larghezza
-        grid.setColumnMinimumWidth(1, 200)    # La colonna 1 avrà almeno 200 pixel di larghezza
+        # RIMUOVI le dimensioni minime per evitare ridisegni costosi
+        # grid.setRowMinimumHeight(0, 300)      # La riga 0 avrà almeno 300 pixel di altezza
+        # grid.setRowMinimumHeight(1, 300)      # La riga 1 avrà almeno 300 pixel di altezza
+        # grid.setColumnMinimumWidth(0, 200)    # La colonna 0 avrà almeno 200 pixel di larghezza
+        # grid.setColumnMinimumWidth(1, 200)    # La colonna 1 avrà almeno 200 pixel di larghezza
 
         # Aggiunge i widget Gauge alle rispettive celle della griglia
         grid.addWidget(self.vel, 0, 0)   # Gauge velocità in riga 0, colonna 0

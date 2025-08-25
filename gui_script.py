@@ -42,7 +42,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update_all)
-        self.timer.start(1000)  # <-- aggiorna ogni 1 secondo invece di 0.5
+        self.timer.start(1000)  # aggiorna ogni 1 secondo
 
     def keyPressEvent(self, event):
         # Gestione cambio dashboard
