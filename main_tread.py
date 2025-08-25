@@ -25,7 +25,7 @@ if __name__ == "__main__":
                 time.sleep(5)
                 print("🔄 Riavvio del thread OBD...")
                 threads['obd'] = start_thread(obd_read, m)
-            time.sleep(2)
+            time.sleep(10)  # <-- aumenta il tempo di sleep per ridurre il carico
 
     Thread(target=monitor_thread, daemon=True).start()
 
